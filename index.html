@@ -5,9 +5,37 @@
   <title>socket.io</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
 <body>
+
+  <input type="text" placeholder="Message">
+
+  <div id="anchor">
+
+  </div>
+
+  <script>
+    $(document).ready(() => {
+
+      const name = prompt('Your name ?');
+      const socket = io();
+
+      $('input').on('keyup', e => {
+        if (e.keyCode === 13) {
+          socket.emit('msg', { name: name, msg: $('input').val() })
+          $('input').val('');
+        }
+      });
+
+      socket.on('msg', obj => {
+        $('#anchor').append(`<p>${obj.name} : ${obj.msg}</p>`);
+      })
+
+    })
+  </script>
 
 </body>
 
